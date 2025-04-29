@@ -96,7 +96,7 @@ static void efifetch_load_info_smbios_cpu(efifetch*ctx){
 	if(cpus>1)APPENDF(CPU,"%llu x ",cpus);
 	APPEND(CPU,version);
 	if(cores>0&&cores!=0xFFFF){
-		if(cores==threads)APPENDF(CPU," (%llu)",cores);
+		if(cores==threads||threads==0)APPENDF(CPU," (%llu)",cores);
 		else APPENDF(CPU," (%lluC%lluT)",cores,threads);
 	}
 	if(max_freq>0&&max_freq!=0xFFFF){
