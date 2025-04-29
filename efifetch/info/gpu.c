@@ -72,32 +72,16 @@ static bool find_pci_gpu(efi_handle*orig,efi_handle*pci){
 	return false;
 }
 
-static void load_gpu(efifetch*ctx,efi_handle gpu,efi_handle pci){
-	efi_status st;
+static void load_gpu_pci_id(efifetch*ctx,uint16_t vendor_id,uint16_t device_id){
 	gpu_item*ven_item=NULL,*dev_item=NULL;
-	efi_pci_io_protocol*pci_io=NULL;
-	pci_device_independent_region dir;
-	if(!pci||!IS_EMPTY(GPU))return;
-	memset(&dir,0,sizeof(dir));
-	st=g_bs->handle_proto(pci,&gEfiPciIoProtocolGuid,(void**)&pci_io);
-	if(efi_error(st)||!pci_io){
-		dbg_printf("handle %p pci io failed: %m\n",pci,st);
-		return;
-	}
-	dbg_printf("gpu pci io protocol %p\n",pci_io);
-	st=pci_io->pci.read(pci_io,pciw_u16,0,sizeof(dir),&dir);
-	if(efi_error(st)){
-		dbg_printf("read pci config failed: %m\n",st);
-		return;
-	}
 	dbg_printf(
 		"found gpu vendor 0x%04x device 0x%04x\n",
-		dir.vendor_id,dir.device_id
+		vendor_id,device_id
 	);
-	if(!dir.vendor_id||!dir.device_id)return;
+	if(!vendor_id||!device_id)return;
 	for(uintn_t i=0;gpu_db[i].name;i++){
-		if(gpu_db[i].vendor!=dir.vendor_id)continue;
-		if(gpu_db[i].device==dir.device_id){
+		if(gpu_db[i].vendor!=vendor_id)continue;
+		if(gpu_db[i].device==device_id){
 			dev_item=&gpu_db[i];
 			dbg_printf("found gpu device in database: %s\n",gpu_db[i].name);
 		}
@@ -117,7 +101,30 @@ static void load_gpu(efifetch*ctx,efi_handle gpu,efi_handle pci){
 			if(!IS_EMPTY(GPU))APPEND(GPU," ");
 			APPEND(GPU,dev_item->name);
 		}
-	}else APPENDF(GPU," %04x:%04x",dir.vendor_id,dir.device_id);
+	}else APPENDF(GPU," %04x:%04x",vendor_id,device_id);
+}
+
+static void load_gpu(efifetch*ctx,efi_handle gpu,efi_handle pci){
+	efi_status st;
+	efi_pci_io_protocol*pci_io=NULL;
+	struct{
+		uint16_t vendor_id;
+		uint16_t device_id;
+	}dir;
+	if(!pci||!IS_EMPTY(GPU))return;
+	memset(&dir,0,sizeof(dir));
+	st=g_bs->handle_proto(pci,&gEfiPciIoProtocolGuid,(void**)&pci_io);
+	if(efi_error(st)||!pci_io){
+		dbg_printf("handle %p pci io failed: %m\n",pci,st);
+		return;
+	}
+	dbg_printf("gpu pci io protocol %p\n",pci_io);
+	st=pci_io->pci.read(pci_io,pciw_u16,0,sizeof(dir),&dir);
+	if(efi_error(st)){
+		dbg_printf("read pci config failed: %m\n",st);
+		return;
+	}
+	load_gpu_pci_id(ctx,dir.vendor_id,dir.device_id);
 }
 
 void efifetch_load_info_gpu(efifetch*ctx){
