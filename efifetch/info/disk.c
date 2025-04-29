@@ -97,7 +97,7 @@ static efi_status disk_get_ata(efi_handle hand,efi_disk_info_protocol*proto,stru
 
 static efi_status disk_get_nvme(efi_handle hand,efi_disk_info_protocol*proto,struct disk_info*info){
 	efi_status st;
-	nvme_admin_controller_data data;
+	nvme_admin_controller_data*data;
 	efi_nvme_passthru_protocol*pt=NULL;
 	efi_nvme_passthru_cmd_pkt cmdpkt;
 	efi_nvme_completion comp;
@@ -107,7 +107,6 @@ static efi_status disk_get_nvme(efi_handle hand,efi_disk_info_protocol*proto,str
 	memset(&cmd,0,sizeof(cmd));
 	memset(&cmdpkt,0,sizeof(cmdpkt));
 	memset(&comp,0,sizeof(comp));
-	memset(&data,0,sizeof(data));
 	st=g_bs->handle_proto(hand,&gEfiDevicePathProtocolGuid,(void**)&dp);
 	if (efi_error (st)) {
 		dbg_printf("disk %p handle device path failed: %m\n",hand,st);
@@ -128,12 +127,16 @@ static efi_status disk_get_nvme(efi_handle hand,efi_disk_info_protocol*proto,str
 		dbg_printf("disk %p handle get passthru protocol failed: %m\n",handle,st);
 		return st;
 	}
+	if(!(data=zalloc(sizeof(*data)))){
+		dbg_print("allocate nvme_admin_controller_data failed\n");
+		return efi_out_of_resources;
+	}
 	cmd.cdw0.opcode=6;
 	cmd.nsid=0;
 	cmdpkt.nvme_cmd=&cmd;
 	cmdpkt.nvme_completion=&comp;
-	cmdpkt.transfer_buffer=&data;
-	cmdpkt.transfer_length=sizeof(data);
+	cmdpkt.transfer_buffer=data;
+	cmdpkt.transfer_length=sizeof(*data);
 	cmdpkt.cmd_timeout=50000000;
 	cmdpkt.queue_type=NVME_ADMIN_QUEUE;
 	cmd.cdw10=1;
@@ -141,9 +144,11 @@ static efi_status disk_get_nvme(efi_handle hand,efi_disk_info_protocol*proto,str
 	st=pt->passthru(pt,0,&cmdpkt,NULL);
 	if(efi_error(st)){
 		dbg_printf("disk %p nvme passthru failed: %m\n",handle,st);
+		free(data);
 		return st;
 	}
-	memcpy(info->model,data.mn,sizeof(data.mn));
+	memcpy(info->model,data->mn,sizeof(data->mn));
+	free(data);
 	return efi_success;
 }
 
