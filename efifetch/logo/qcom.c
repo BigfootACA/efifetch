@@ -31,6 +31,7 @@ static const char*logo_qualcomm_data[]={
 
 static attr_map logo_qualcomm_attr_map[]={
 	{'*', EFI_BLUE},
+	{'#', EFI_BLUE},
 	{0,0}
 };
 

@@ -29,6 +29,7 @@ static attr_map logo_insyde_attr_map[]={
 	{'-', EFI_GREEN},
 	{'+', EFI_GREEN},
 	{':', EFI_GREEN},
+	{'.', EFI_GREEN},
 	{0,0}
 };
 

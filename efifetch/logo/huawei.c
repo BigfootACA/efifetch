@@ -24,6 +24,7 @@ static attr_map logo_huawei_attr_map[]={
 	{'-', EFI_RED},
 	{'+', EFI_RED},
 	{':', EFI_RED},
+	{'.', EFI_RED},
 	{0,0}
 };
 
