@@ -24,4 +24,5 @@ extern efi_status err_setattr(uintn_t attr);
 extern efi_status out_resetattr(void);
 extern efi_status err_resetattr(void);
 extern void print_init();
+#define trace_line dbg_printf("%s %s:%d\n",__FILE__,__func__,__LINE__);
 #endif
