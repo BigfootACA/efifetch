@@ -1,0 +1,81 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = efifetch
+  FILE_GUID                      = 867636A4-844A-4897-917B-397B2504A325
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Packages]
+  efifetch/efifetch.dec
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+
+[Sources]
+  main.c
+  data/cpuid-arm.c
+  data/efi_guids.c
+  data/gpu-db.c
+  data/string.c
+  lib/alloc.c
+  lib/ctype.c
+  lib/dbg.c
+  lib/dump.c
+  lib/encode.c
+  lib/init.c
+  lib/mem.c
+  lib/net.c
+  lib/num.c
+  lib/print.c
+  lib/printf.c
+  lib/readable.c
+  lib/regexp.c
+  lib/stb_sprintf.c
+  lib/stderr.c
+  lib/stdout.c
+  lib/str.c
+  lib/utils.c
+  logo/logos.c
+  logo/logo.c
+  logo/ami.c
+  logo/apple.c
+  logo/dell.c
+  logo/hp.c
+  logo/huawei.c
+  logo/insyde.c
+  logo/lenovo.c
+  logo/microsoft.c
+  logo/parsec.c
+  logo/phoenix.c
+  logo/qcom.c
+  logo/quanta.c
+  logo/virtualbox.c
+  logo/vmware.c
+  logo/uefi.c
+  logo/uboot.c
+  logo/tianocore.c
+  info/fdt.c
+  info/fs.c
+  info/cpuid.c
+  info/disk.c
+  info/info.c
+  info/gpu.c
+  info/mem.c
+  info/net.c
+  info/time.c
+  info/smbios.c
+  info/smbios_base.c
+  info/sys.c
+  entry/GenericUefi.c
+  libfdt/fdt.c
+  libfdt/fdt_addresses.c
+  libfdt/fdt_check.c
+  libfdt/fdt_empty_tree.c
+  libfdt/fdt_overlay.c
+  libfdt/fdt_ro.c
+  libfdt/fdt_rw.c
+  libfdt/fdt_strerror.c
+  libfdt/fdt_sw.c
+  libfdt/fdt_wip.c
