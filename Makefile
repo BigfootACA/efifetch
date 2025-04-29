@@ -8,7 +8,7 @@ PACKAGES_PATH ?= $(EDK2_PATH)/edk2:$(PWD)
 X_CCFLAGS = \
 	-g -Iefifetch/include \
 	-nostdlib -nodefaultlibs -nolibc -nostdinc \
-	-O0 -Wall -Wextra -Werror -Werror=stack-usage=8192 \
+	-O3 -Wall -Wextra -Werror -Werror=stack-usage=8192 \
 	-fpic -ffreestanding -fno-stack-protector -fno-stack-check \
 	-fshort-wchar -fno-builtin -fno-common -fno-strict-aliasing \
 	-fdata-sections -ffunction-sections -mgeneral-regs-only \
