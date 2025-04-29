@@ -69,7 +69,7 @@ efi_handle efi_get_parent_device(efi_handle handle){
 	efi_handle parent=NULL;
 	efi_device_path_protocol*loc_dp=par_dp;
 	st=g_bs->locate_device_path(&gEfiDevicePathProtocolGuid,&loc_dp,&parent);
-	g_bs->free_pool(par_dp);
+	free(par_dp);
 	if(efi_error(st)||!parent)return NULL;
 	if(parent==handle)return NULL;
 	return parent;
