@@ -103,5 +103,5 @@ void print_init(){
 	if(stdout)
 		con_stdout_def_attr=stdout->mode->attribute.num;
 	if(stderr)
-		con_stderr_def_attr=stderr->mode->attribute.num;	
+		con_stderr_def_attr=stderr->mode->attribute.num;
 }

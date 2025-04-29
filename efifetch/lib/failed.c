@@ -31,7 +31,7 @@ void __stack_chk_fail(void){
 	abort();
 }
 
-__attribute__((noreturn)) 
+__attribute__((noreturn))
 void __stack_chk_fail_local(void){
 	__stack_chk_fail();
 }

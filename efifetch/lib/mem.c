@@ -24,14 +24,14 @@ __weak void*memrchr(const void*m,int c,size_t n){
 }
 
 __weak void*memmem(const void*h,size_t hl,const void*n,size_t nl){
-        char*s=(void*)h,*p=(void*)n;
-        if(!h||!n)return NULL;
-        if(nl==0)return s;
-        if(hl<nl)return NULL;
-        for(;s<=(char*)h+hl-nl;s++)
-                if(*s==*p&&memcmp(s+1,p+1,nl-1)==0)
-                        return s;
-        return NULL;
+	char*s=(void*)h,*p=(void*)n;
+	if(!h||!n)return NULL;
+	if(nl==0)return s;
+	if(hl<nl)return NULL;
+	for(;s<=(char*)h+hl-nl;s++)
+		if(*s==*p&&memcmp(s+1,p+1,nl-1)==0)
+			return s;
+	return NULL;
 }
 
 __weak void*memcpy(void*dest,const void*src,size_t n){

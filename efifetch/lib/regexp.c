@@ -669,12 +669,12 @@ static unsigned int count(Renode *node)
 	if (!node) return 0;
 	switch (node->type) {
 	default: return 1;
-	case P_CAT: 
+	case P_CAT:
 		v1 = count(node->x);
 		v2 = count(node->y);
 		if (v1 == UINT_MAX || v2 == UINT_MAX) return UINT_MAX;
 		return v1 + v2;
-	case P_ALT: 
+	case P_ALT:
 		v1 = count(node->x);
 		v2 = count(node->y);
 		if (v1 == UINT_MAX || v2 == UINT_MAX) return UINT_MAX;
@@ -692,9 +692,9 @@ static unsigned int count(Renode *node)
 			return UINT_MAX;
 		}
 		return n;
-	case P_PAR: 
-	case P_PLA: 
-	case P_NLA: 
+	case P_PAR:
+	case P_PLA:
+	case P_NLA:
 		v1 = count(node->x);
 		if(v1 == UINT_MAX) return UINT_MAX;
 		return v1 + 2;

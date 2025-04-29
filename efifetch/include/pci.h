@@ -511,133 +511,133 @@ typedef enum efi_pci_io_protocol_width{
 #define EFI_PCI_DEVICE_ENABLE (EFI_PCI_IO_ATTRIBUTE_IO | EFI_PCI_IO_ATTRIBUTE_MEMORY | EFI_PCI_IO_ATTRIBUTE_BUS_MASTER)
 #define EFI_VGA_DEVICE_ENABLE (EFI_PCI_IO_ATTRIBUTE_VGA_PALETTE_IO | EFI_PCI_IO_ATTRIBUTE_VGA_MEMORY | EFI_PCI_IO_ATTRIBUTE_VGA_IO | EFI_PCI_IO_ATTRIBUTE_IO)
 typedef enum efi_pci_io_protocol_operation{
-        efi_pci_io_oper_bus_master_read,
-        efi_pci_io_oper_bus_master_write,
-        efi_pci_io_oper_bus_master_buffer,
-        efi_pci_io_oper_maximum
+	efi_pci_io_oper_bus_master_read,
+	efi_pci_io_oper_bus_master_write,
+	efi_pci_io_oper_bus_master_buffer,
+	efi_pci_io_oper_maximum
 }efi_pci_io_protocol_operation;
 typedef enum efi_pci_io_protocol_attribute_operation{
-        efi_pci_io_attr_oper_get,
-        efi_pci_io_attr_oper_set,
-        efi_pci_io_attr_oper_enable,
-        efi_pci_io_attr_oper_disable,
-        efi_pci_io_attr_oper_supported,
-        efi_pci_io_attr_oper_maximum
+	efi_pci_io_attr_oper_get,
+	efi_pci_io_attr_oper_set,
+	efi_pci_io_attr_oper_enable,
+	efi_pci_io_attr_oper_disable,
+	efi_pci_io_attr_oper_supported,
+	efi_pci_io_attr_oper_maximum
 }efi_pci_io_protocol_attribute_operation;
 typedef efi_status(efiapi*efi_pci_io_protocol_poll_io_mem)(
-        efi_pci_io_protocol       *this,
-        efi_pci_io_protocol_width width,
-        uint8_t                   bar,
-        uint64_t                  offset,
-        uint64_t                  mask,
-        uint64_t                  value,
-        uint64_t                  delay,
-        uint64_t                  *result
+	efi_pci_io_protocol       *this,
+	efi_pci_io_protocol_width width,
+	uint8_t                   bar,
+	uint64_t                  offset,
+	uint64_t                  mask,
+	uint64_t                  value,
+	uint64_t                  delay,
+	uint64_t                  *result
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_io_mem)(
-        efi_pci_io_protocol       *this,
-        efi_pci_io_protocol_width width,
-        uint8_t                   bar,
-        uint64_t                  offset,
-        uintn_t                   count,
-        void                      *buffer
+	efi_pci_io_protocol       *this,
+	efi_pci_io_protocol_width width,
+	uint8_t                   bar,
+	uint64_t                  offset,
+	uintn_t                   count,
+	void                      *buffer
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_config)(
-        efi_pci_io_protocol       *this,
-        efi_pci_io_protocol_width width,
-        uint32_t                  offset,
-        uintn_t                   count,
-        void                      *buffer
+	efi_pci_io_protocol       *this,
+	efi_pci_io_protocol_width width,
+	uint32_t                  offset,
+	uintn_t                   count,
+	void                      *buffer
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_copy_mem)(
-        efi_pci_io_protocol       *this,
-        efi_pci_io_protocol_width width,
-        uint8_t                   dest_bar,
-        uint64_t                  dest_offset,
-        uint8_t                   src_bar,
-        uint64_t                  src_offset,
-        uintn_t                   count
+	efi_pci_io_protocol       *this,
+	efi_pci_io_protocol_width width,
+	uint8_t                   dest_bar,
+	uint64_t                  dest_offset,
+	uint8_t                   src_bar,
+	uint64_t                  src_offset,
+	uintn_t                   count
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_map)(
-        efi_pci_io_protocol            *this,
-        efi_pci_io_protocol_operation  oper,
-        void                           *host,
-        uintn_t                        *bytes,
-        efi_address                    *device,
-        void                           **mapping
+	efi_pci_io_protocol            *this,
+	efi_pci_io_protocol_operation  oper,
+	void                           *host,
+	uintn_t                        *bytes,
+	efi_address                    *device,
+	void                           **mapping
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_unmap)(
-        efi_pci_io_protocol *this,
-        void                *mapping
+	efi_pci_io_protocol *this,
+	void                *mapping
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_allocate_buffer)(
-        efi_pci_io_protocol *this,
-        efi_allocate_type   type,
-        efi_memory_type     memory,
-        uintn_t             pages,
-        void                **host,
-        uint64_t            attrs
+	efi_pci_io_protocol *this,
+	efi_allocate_type   type,
+	efi_memory_type     memory,
+	uintn_t             pages,
+	void                **host,
+	uint64_t            attrs
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_free_buffer)(
-        efi_pci_io_protocol *this,
-        uintn_t             pages,
-        void                *host
+	efi_pci_io_protocol *this,
+	uintn_t             pages,
+	void                *host
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_flush)(
-        efi_pci_io_protocol*this
+	efi_pci_io_protocol*this
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_get_location)(
-        efi_pci_io_protocol *this,
-        uintn_t             *segment,
-        uintn_t             *bus,
-        uintn_t             *device,
-        uintn_t             *func
+	efi_pci_io_protocol *this,
+	uintn_t             *segment,
+	uintn_t             *bus,
+	uintn_t             *device,
+	uintn_t             *func
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_attributes)(
-        efi_pci_io_protocol                      This,
-        efi_pci_io_protocol_attribute_operation  oper,
-        uint64_t                                 attrs,
-        uint64_t                                 *result
+	efi_pci_io_protocol                      This,
+	efi_pci_io_protocol_attribute_operation  oper,
+	uint64_t                                 attrs,
+	uint64_t                                 *result
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_get_bar_attributes)(
-        efi_pci_io_protocol *this,
-        uint8_t             bar,
-        uint64_t            *supports,
-        void                **resources
+	efi_pci_io_protocol *this,
+	uint8_t             bar,
+	uint64_t            *supports,
+	void                **resources
 );
 typedef efi_status(efiapi*efi_pci_io_protocol_set_bar_attributes)(
-        efi_pci_io_protocol *this,
-        uint64_t            attributes,
-        uint8_t             bar,
-        uint64_t            *offset,
-        uint64_t            *length
+	efi_pci_io_protocol *this,
+	uint64_t            attributes,
+	uint8_t             bar,
+	uint64_t            *offset,
+	uint64_t            *length
 );
 typedef struct efi_pci_io_protocol_access{
-        efi_pci_io_protocol_io_mem read;
-        efi_pci_io_protocol_io_mem write;
+	efi_pci_io_protocol_io_mem read;
+	efi_pci_io_protocol_io_mem write;
 }efi_pci_io_protocol_access;
 typedef struct efi_pci_io_protocol_config_access{
-        efi_pci_io_protocol_config read;
-        efi_pci_io_protocol_config write;
+	efi_pci_io_protocol_config read;
+	efi_pci_io_protocol_config write;
 }efi_pci_io_protocol_config_access;
 struct efi_pci_io_protocol{
-        efi_pci_io_protocol_poll_io_mem         poll_mem;
-        efi_pci_io_protocol_poll_io_mem         poll_io;
-        efi_pci_io_protocol_access              mem;
-        efi_pci_io_protocol_access              io;
-        efi_pci_io_protocol_config_access       pci;
-        efi_pci_io_protocol_copy_mem            copy_mem;
-        efi_pci_io_protocol_map                 map;
-        efi_pci_io_protocol_unmap               unmap;
-        efi_pci_io_protocol_allocate_buffer     alloc_buffer;
-        efi_pci_io_protocol_free_buffer         free_buffer;
-        efi_pci_io_protocol_flush               flush;
-        efi_pci_io_protocol_get_location        get_location;
-        efi_pci_io_protocol_attributes          attributes;
-        efi_pci_io_protocol_get_bar_attributes  get_bar_attrs;
-        efi_pci_io_protocol_set_bar_attributes  set_bar_attrs;
-        uint64_t                                rom_size;
-        void                                    *rom_image;
+	efi_pci_io_protocol_poll_io_mem         poll_mem;
+	efi_pci_io_protocol_poll_io_mem         poll_io;
+	efi_pci_io_protocol_access              mem;
+	efi_pci_io_protocol_access              io;
+	efi_pci_io_protocol_config_access       pci;
+	efi_pci_io_protocol_copy_mem            copy_mem;
+	efi_pci_io_protocol_map                 map;
+	efi_pci_io_protocol_unmap               unmap;
+	efi_pci_io_protocol_allocate_buffer     alloc_buffer;
+	efi_pci_io_protocol_free_buffer         free_buffer;
+	efi_pci_io_protocol_flush               flush;
+	efi_pci_io_protocol_get_location        get_location;
+	efi_pci_io_protocol_attributes          attributes;
+	efi_pci_io_protocol_get_bar_attributes  get_bar_attrs;
+	efi_pci_io_protocol_set_bar_attributes  set_bar_attrs;
+	uint64_t                                rom_size;
+	void                                    *rom_image;
 };
 typedef struct efi_pci_root_bridge_io_protocol efi_pci_root_bridge_io_protocol;
 typedef enum efi_pci_root_bridge_io_protocol_operation{

@@ -14,11 +14,11 @@ int ipv4_to_prefix(efi_ipv4_address*msk){
 	if(!msk)return -1;
 	int prefix=0;
 	uint32_t mask_val=msk->raw;
-        unsigned long m=0x80000000;
-        while(prefix<32&&m){
-                if(mask_val&m)prefix++;
-                m>>=1;
-        }
+	unsigned long m=0x80000000;
+	while(prefix<32&&m){
+		if(mask_val&m)prefix++;
+		m>>=1;
+	}
 	return prefix;
 }
 
