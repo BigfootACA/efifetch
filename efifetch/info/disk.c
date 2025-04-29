@@ -177,10 +177,14 @@ void efifetch_load_info_disk(efifetch*ctx){
 		return;
 	}
 	RESET(DISK);
-	struct disk_type*t;
+	struct disk_type*t=NULL;
 	for(uintn_t i=0;disk_types[i].intf;i++)
 		if(memcmp(&info->interface,disk_types[i].intf,sizeof(efi_guid))==0)
 			t=&disk_types[i];
+	if(!t){
+		dbg_printf("disk %p unknown interface type\n",handle);
+		return;
+	}
 	SET(DISK,t->name);
 	struct disk_info dinfo={};
 	st=t->get_info(handle,info,&dinfo);
