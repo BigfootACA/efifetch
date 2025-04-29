@@ -28,6 +28,7 @@ OBJS = \
 	$(O)/lib/dbg.c.o \
 	$(O)/lib/dump.c.o \
 	$(O)/lib/encode.c.o \
+	$(O)/lib/failed.c.o \
 	$(O)/lib/init.c.o \
 	$(O)/lib/mem.c.o \
 	$(O)/lib/net.c.o \

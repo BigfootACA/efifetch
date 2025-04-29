@@ -24,6 +24,7 @@
   lib/dbg.c
   lib/dump.c
   lib/encode.c
+  lib/failed.c
   lib/init.c
   lib/mem.c
   lib/net.c

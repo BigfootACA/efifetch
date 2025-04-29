@@ -8,10 +8,12 @@ PACKAGES_PATH ?= $(EDK2_PATH)/edk2:$(PWD)
 X_CCFLAGS = \
 	-g -Iefifetch/include \
 	-nostdlib -nodefaultlibs -nolibc -nostdinc \
-	-O3 -Wall -Wextra -Werror -Werror=stack-usage=8192 \
-	-fpic -ffreestanding -fno-stack-protector -fno-stack-check \
+	-O3 -Wall -Wextra -Werror -Werror=stack-usage=4096 \
+	-fpic -ffreestanding -fstack-protector -fno-stack-check \
 	-fshort-wchar -fno-builtin -fno-common -fno-strict-aliasing \
 	-fdata-sections -ffunction-sections -mgeneral-regs-only \
+	-fno-jump-tables \
+	-mstack-protector-guard=global \
 	-Wno-sign-compare -Wno-unused-parameter
 X_LDFLAGS = \
 	-g -shared -Bsymbolic --no-undefined \
@@ -23,11 +25,11 @@ X_COPYFLAGS = \
 	--subsystem=10
 ifeq ($(ARCH),x86_64)
 	X_COPYFLAGS += --target pei-x86-64
-	X_CCFLAGS += -mno-red-zone -maccumulate-outgoing-args
+	X_CCFLAGS += -mno-red-zone -maccumulate-outgoing-args -mcmodel=small
 	EDK2_ARCH = X64
 else ifeq ($(ARCH),aarch64)
 	X_COPYFLAGS += --target pei-aarch64-little
-	X_CCFLAGS += -ffixed-x18
+	X_CCFLAGS += -ffixed-x18 -mstrict-align -mcmodel=small
 	EDK2_ARCH = AARCH64
 else ifeq ($(ARCH),riscv64)
 	X_COPYFLAGS += --target pei-riscv64-little
