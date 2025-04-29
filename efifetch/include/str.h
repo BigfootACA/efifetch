@@ -78,11 +78,40 @@ extern int vasprintf(char**buf,const char*fmt,va_list va);
 extern int vsprintf(char*buf,const char*fmt,va_list va);
 extern int vsnprintf(char*buf,size_t size,const char*fmt,va_list va);
 extern int vscprintf(char*buf,size_t size,const char*fmt,va_list va);
-extern uintn_t utf8_to_utf16(const char*src,uintn_t src_size,char16*dst,uintn_t dst_size);
-extern uintn_t utf16_to_utf8(const char16*src,uintn_t src_size,char*dst,uintn_t dst_size);
 extern const char*efi_status_to_string(efi_status st);
 extern const char*efi_status_to_short_string(efi_status st);
 extern const char*efi_memory_type_to_string(efi_memory_type type);
 extern const char*efi_guid_to_string(const efi_guid*guid,char*buff,size_t len);
 #define efi_strerr efi_status_to_string
+typedef enum encoding{
+	ENC_NONE,
+	ENC_UTF8,
+	ENC_UTF16,
+}encoding;
+typedef struct convert_transfer{
+	const void*match;
+	size_t match_size;
+	const void*replace;
+	size_t replace_size;
+}convert_transfer;
+typedef struct encode_convert_ctx{
+	struct{
+		encoding src;
+		encoding dst;
+		const void*src_ptr;
+		void*dst_ptr;
+		size_t src_size;
+		size_t dst_size;
+		convert_transfer**transfers;
+		bool allow_invalid;
+	}in;
+	struct{
+		void*src_end;
+		void*dst_end;
+		size_t src_used;
+		size_t dst_wrote;
+		bool have_invalid;
+	}out;
+}encode_convert_ctx;
+extern efi_status encode_convert(encode_convert_ctx*ctx);
 #endif
