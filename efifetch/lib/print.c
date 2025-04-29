@@ -9,17 +9,29 @@ efi_status text_printn(
 	efi_simple_text_output_protocol*con,
 	const char*str,size_t len
 ){
-	efi_status status=efi_success;
-	char16 buffer[128];
 	if(!con||!str)return efi_invalid_parameter;
-	do{
-		uintn_t ret=utf8_to_utf16(str,len,buffer,sizeof(buffer));
-		if(ret==0)break;
-		buffer[ret]=0;
-		str+=ret,len-=ret;
-		status=con->output_string(con,buffer);
-	}while(*str&&!efi_error(status));
-	return status;
+	efi_status st=efi_success;
+	char16 buffer[128]={};
+	while(len>0){
+		encode_convert_ctx ctx={};
+		ctx.in.src=ENC_UTF8;
+		ctx.in.dst=ENC_UTF16;
+		ctx.in.src_ptr=(void*)str;
+		ctx.in.src_size=len;
+		ctx.in.dst_ptr=buffer;
+		ctx.in.dst_size=sizeof(buffer)-2;
+		ctx.in.allow_invalid=true;
+		ctx.in.transfers=NULL;
+		st=encode_convert(&ctx);
+		if(efi_error(st))break;
+		if(ctx.out.dst_wrote==0)break;
+		buffer[sizeof(buffer)/sizeof(char16)-1]=0;
+		st=con->output_string(con,buffer);
+		if(efi_error(st))break;
+		str=(const char*)ctx.out.src_end;
+		len-=ctx.out.src_used;
+	}
+	return st;
 }
 
 efi_status text_print(

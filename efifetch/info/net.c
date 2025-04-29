@@ -50,8 +50,16 @@ void efifetch_load_info_net_ipv4(efifetch*ctx){
 			int ret=ipv4_to_string(&info->station_addr,buff,sizeof(buff));
 			if(prefix>=0&&ret>=0){
 				SETF(IP4,"%s/%u",buff,prefix);
-				uintn_t l=utf16_to_utf8(info->name,sizeof(info->name),buff,sizeof(buff));
-				if(l>0)APPENDF(IP4," (%s)",buff);
+				encode_convert_ctx conv={};
+				conv.in.src=ENC_UTF16;
+				conv.in.dst=ENC_UTF8;
+				conv.in.src_ptr=info->name;
+				conv.in.src_size=sizeof(info->name);
+				conv.in.dst_ptr=buff;
+				conv.in.dst_size=sizeof(buff);
+				conv.in.allow_invalid=true;
+				encode_convert(&conv);
+				if(conv.out.dst_wrote>0)APPENDF(IP4," (%s)",buff);
 			}
 		}else dbg_printf(
 			"handle %p ip4 cfg get interface failed or no address: %m\n",
@@ -104,8 +112,16 @@ void efifetch_load_info_net_ipv6(efifetch*ctx){
 			char buff[64]={};
 			if(ipv6_to_string(&info->addr_info[0].addr,buff,sizeof(buff))>0)
 				SET(IP6,buff);
-			uintn_t l=utf16_to_utf8(info->name,sizeof(info->name),buff,sizeof(buff));
-			if(l>0)APPENDF(IP6," (%s)",buff);
+			encode_convert_ctx conv={};
+			conv.in.src=ENC_UTF16;
+			conv.in.dst=ENC_UTF8;
+			conv.in.src_ptr=info->name;
+			conv.in.src_size=sizeof(info->name);
+			conv.in.dst_ptr=buff;
+			conv.in.dst_size=sizeof(buff);
+			conv.in.allow_invalid=true;
+			encode_convert(&conv);
+			if(conv.out.dst_wrote>0)APPENDF(IP6," (%s)",buff);
 		}else dbg_printf(
 			"handle %p ip6 cfg get interface failed or no address: %m\n",
 			hands[i],st

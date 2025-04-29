@@ -10,10 +10,17 @@ static void efifetch_load_info_sys_firmware(efifetch*ctx){
 		dbg_print("system table firmware vendor is empty\n");
 		return;
 	}
-	char buff[40];
-	uintn_t ret=utf16_to_utf8(g_st->firmware_vendor,80,buff,sizeof(buff));
-	if(ret==0)return;
-	buff[ret]=0;
+	char buff[64];
+	encode_convert_ctx conv={};
+	conv.in.src=ENC_UTF16;
+	conv.in.dst=ENC_UTF8;
+	conv.in.src_ptr=(void*)g_st->firmware_vendor;
+	conv.in.src_size=40*sizeof(char16);
+	conv.in.dst_ptr=buff;
+	conv.in.dst_size=sizeof(buff);
+	conv.in.allow_invalid=true;
+	encode_convert(&conv);
+	if(conv.out.dst_wrote==0)return;
 	APPENDF(
 		FIRMWARE,"%s %u.%u",buff,
 		(g_st->firmware_revision>>0x10)&0xFFFF,
