@@ -1,0 +1,58 @@
+name: Build efifetch
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y make gcc gcc-aarch64-linux-gnu
+        sudo apt install -y lib32gcc-$(gcc -dumpversion)-dev
+        sudo apt install -y efi-shell-aa64 efi-shell-ia32 efi-shell-x64
+
+    - name: Build x86_64 efifetch
+      run: make ARCH=x86_64 O=build-x86_64 -j$(nproc)
+
+    - name: Build i386 efifetch
+      run: make ARCH=i386 O=build-i386 -j$(nproc)
+
+    - name: Build aarch64 efifetch
+      run: make ARCH=aarch64 O=build-aarch64 CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc)
+
+    - name: Package files
+      run: |
+        mkdir -p package/efifetch
+        cp build-i386/efifetch.efi package/efifetch/efifetch-i386.efi
+        cp build-x86_64/efifetch.efi package/efifetch/efifetch-x86_64.efi
+        cp build-aarch64/efifetch.efi package/efifetch/efifetch-aarch64.efi
+        cp /usr/share/efi-shell-ia32/shellia32.efi package/efifetch/shell-i386.efi
+        cp /usr/share/efi-shell-x64/shellx64.efi package/efifetch/shell-x64.efi
+        cp /usr/share/efi-shell-aa64/shellaa64.efi package/efifetch/shell-aarch64.efi
+        mkdir -p package/efifetch-debug
+        cp build-i386/efifetch.so package/efifetch-debug/efifetch-i386.debug
+        cp build-x86_64/efifetch.so package/efifetch-debug/efifetch-x86_64.debug
+        cp build-aarch64/efifetch.so package/efifetch-debug/efifetch-aarch64.debug
+        find package -type f -exec chmod 644 {} \;
+        find package -type d -exec chmod 755 {} \;
+
+    - name: Upload efifetch artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: efifetch
+        path: package/efifetch
+
+    - name: Upload efifetch-debug artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: efifetch-debug
+        path: package/efifetch-debug
