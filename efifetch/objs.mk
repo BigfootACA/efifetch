@@ -6,10 +6,12 @@ OBJS = \
 	$(O)/data/string.c.o \
 	$(O)/logo/ami.c.o \
 	$(O)/logo/apple.c.o \
+	$(O)/logo/byosoft.c.o \
 	$(O)/logo/dell.c.o \
 	$(O)/logo/hp.c.o \
 	$(O)/logo/huawei.c.o \
 	$(O)/logo/insyde.c.o \
+	$(O)/logo/kunlun.c.o \
 	$(O)/logo/lenovo.c.o \
 	$(O)/logo/microsoft.c.o \
 	$(O)/logo/parsec.c.o \
