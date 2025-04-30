@@ -42,10 +42,12 @@
   logo/logo.c
   logo/ami.c
   logo/apple.c
+  logo/byosoft.c
   logo/dell.c
   logo/hp.c
   logo/huawei.c
   logo/insyde.c
+  logo/kunlun.c
   logo/lenovo.c
   logo/microsoft.c
   logo/parsec.c
