@@ -23,6 +23,17 @@ X_COPYFLAGS = \
 	-j .text -j .sdata -j .data -j .rodata -j .dynamic -j .dynsym \
 	-j .rel -j .rela -j .rel.* -j .rela.* -j .reloc \
 	--subsystem=10
+ifeq ($(CROSS_COMPILE),)
+CC ?= gcc
+LD ?= ld
+OBJCOPY ?= objcopy
+STRIP ?= strip
+else
+CC := $(CROSS_COMPILE)gcc
+LD := $(CROSS_COMPILE)ld
+OBJCOPY := $(CROSS_COMPILE)objcopy
+STRIP := $(CROSS_COMPILE)strip
+endif
 ifeq ($(ARCH),x86_64)
 	X_COPYFLAGS += --target pei-x86-64
 	X_CCFLAGS += -mno-red-zone -maccumulate-outgoing-args -mcmodel=small
@@ -65,8 +76,8 @@ $(O)/efifetch.so: $(OBJS)
 
 $(O)/efifetch.efi: $(O)/efifetch.so
 	@mkdir -p $(@D)
-	objcopy $(X_COPYFLAGS) $^ $@
-	strip $@
+	$(OBJCOPY) $(X_COPYFLAGS) $^ $@
+	$(STRIP) $@
 
 clean:
 	find $(O) -type f -name '*.o' -delete
