@@ -73,7 +73,7 @@ static bool find_pci_gpu(efi_handle*orig,efi_handle*pci){
 }
 
 static void load_gpu_pci_id(efifetch*ctx,uint16_t vendor_id,uint16_t device_id){
-	gpu_item*ven_item=NULL,*dev_item=NULL;
+	const gpu_item*ven_item=NULL,*dev_item=NULL;
 	dbg_printf(
 		"found gpu vendor 0x%04x device 0x%04x\n",
 		vendor_id,device_id

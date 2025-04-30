@@ -11,7 +11,7 @@ static void efifetch_load_info_cpuid_arch(efifetch*ctx){
 	asm volatile("mrs %0,midr_el1":"=r"(midr.value));
 	asm volatile("mrs %0,CurrentEL":"=r"(el.value));
 	dbg_printf("midr: 0x%016llx\n",midr.value);
-	arm_cpuid_item*impl=NULL,*part=NULL;
+	const arm_cpuid_item*impl=NULL,*part=NULL;
 	for(uintn_t i=0;arm_cpuid_items[i].name;i++){
 		if(arm_cpuid_items[i].implementer!=midr.Implementer)continue;
 		if(arm_cpuid_items[i].part==0xFFFF){
