@@ -25,9 +25,9 @@ static attr_map logo_kunlun_attr_map[]={
 };
 
 static const char*logo_kunlun_matchs[]={
-	"$zdtech",
-	"$zd-tech",
-	"$kunlun",
+	"@zdtech",
+	"@zd-tech",
+	"@kunlun",
 	NULL,
 };
 

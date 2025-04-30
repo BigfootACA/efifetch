@@ -32,7 +32,7 @@ static attr_map logo_byosoft_attr_map[]={
 };
 
 static const char*logo_byosoft_matchs[]={
-	"$byosoft",
+	"@byosoft",
 	NULL,
 };
 
